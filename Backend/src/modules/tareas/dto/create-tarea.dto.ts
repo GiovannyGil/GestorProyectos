@@ -30,8 +30,8 @@ export class CreateTareaDto {
     
     @IsNumber()
     @IsNotEmpty()
-    
     usuarioId: number;
+    
     @IsNumber()
     @IsNotEmpty()
     proyectoId: number;

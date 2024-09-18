@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, BadRequestException } from '@nestjs/common';
 import { TareasService } from './tareas.service';
 import { CreateTareaDto } from './dto/create-tarea.dto';
 import { UpdateTareaDto } from './dto/update-tarea.dto';
@@ -8,27 +8,47 @@ export class TareasController {
   constructor(private readonly tareasService: TareasService) {}
 
   @Post()
-  create(@Body() createTareaDto: CreateTareaDto) {
-    return this.tareasService.create(createTareaDto);
+  async create(@Body() createTareaDto: CreateTareaDto) {
+    try {
+      return await this.tareasService.create(createTareaDto);
+    } catch (error) {
+      throw new BadRequestException(`Algo salió mal ${error.message}`)
+    }
   }
 
   @Get()
-  findAll() {
-    return this.tareasService.findAll();
+  async findAll() {
+    try {
+      return await this.tareasService.findAll();
+    } catch (error) {
+      throw new BadRequestException(`Algo salió mal ${error.message}`)
+    }
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.tareasService.findOne(+id);
+  async findOne(@Param('id') id: string) {
+   try {
+     return await this.tareasService.findOne(+id);
+   } catch (error) {
+      throw new BadRequestException(`Algo salió mal ${error.message}`)
+   }
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTareaDto: UpdateTareaDto) {
-    return this.tareasService.update(+id, updateTareaDto);
+  async update(@Param('id') id: string, @Body() updateTareaDto: UpdateTareaDto) {
+    try {
+      return await this.tareasService.update(+id, updateTareaDto);
+    } catch (error) {
+      throw new BadRequestException(`Algo salió mal ${error.message}`)
+    }
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.tareasService.remove(+id);
+  async remove(@Param('id') id: string) {
+    try {
+      return await this.tareasService.remove(+id);
+    } catch (error) {
+      throw new BadRequestException(`Algo salió mal ${error.message}`)
+    }
   }
 }

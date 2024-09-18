@@ -11,7 +11,7 @@ export class Tarea {
     @Column({ type: "varchar", length: 200, nullable: false })
     descripcion: string;
     
-    @Column({ type: "date", nullable: false})
+    @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP', nullable: false})
     fechaCreacion: Date;
     
     @Column({ type: "date", nullable: true})
@@ -20,7 +20,7 @@ export class Tarea {
     @Column({ type: "date", nullable: true})
     fechaCompletado: Date;
     
-    @Column({ type: "boolean", nullable: true })
+    @Column({ type: "boolean", nullable: true, default: false })
     estado: boolean;
     
     @Column({ type: "int", nullable: false })
