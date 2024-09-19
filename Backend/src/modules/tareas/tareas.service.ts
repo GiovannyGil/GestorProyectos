@@ -13,8 +13,20 @@ export class TareasService {
     private readonly TareaREPO: Repository<Tarea>
   ){}
 
-  create(createTareaDto: CreateTareaDto) {
-    return 'This action adds a new tarea';
+  async create(createTareaDto: CreateTareaDto) {
+    try {
+      // crear la tarea
+      const tarea = this.TareaREPO.create(createTareaDto)
+      // verificar si todo está bien
+      if(!tarea) throw new NotFoundException('No se pudo crear la tarea')
+      // guardar la tarea
+      const tareaGuardada = await this.TareaREPO.save(tarea)
+      // retornar la tarea
+      return tareaGuardada;
+
+    } catch (error) {
+      throw new BadRequestException(`Algo salió mal ${error.message}`)
+    }
   }
 
   async findAll(): Promise<Tarea[]> {

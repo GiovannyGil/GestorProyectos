@@ -26,7 +26,7 @@ export class CreateTareaDto {
     @IsBoolean()
     @IsOptional()
     @Length(1,50)
-    estado: string;
+    estado: boolean;
     
     @IsNumber()
     @IsNotEmpty()
