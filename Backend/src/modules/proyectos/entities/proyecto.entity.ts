@@ -26,16 +26,16 @@ export class Proyecto {
     @Column({ type: "varchar", length: 50, nullable: false })
     metodologia: string
 
-    @Column({ length: 20, nullable: false, type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
+    @Column({ nullable: false, type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
     fechaCreacion: Date
 
-    @Column({ type: "datetime", length: 20, nullable: false })
+    @Column({ type: "datetime", nullable: false })
     fechaLimite: Date
 
-    @Column({ type: "datetime", length: 20, nullable: false })
+    @Column({ type: "datetime", nullable: false })
     fechaCompletado: Date
 
-    @Column({ type: "boolean", length: 20, nullable: false, default: false})
+    @Column({ type: "boolean", nullable: false, default: false})
     estado: boolean
 
     @Column({ type: "boolean", nullable: false, default: false })
