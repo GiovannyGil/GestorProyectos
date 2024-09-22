@@ -1,4 +1,6 @@
-import { IsNotEmpty, IsOptional, IsString, Length } from "class-validator"
+import { CreateTareaDto } from "@/modules/tareas/dto/create-tarea.dto"
+import { Tarea } from "@/modules/tareas/entities/tarea.entity"
+import { IsArray, IsNotEmpty, IsOptional, IsString, Length } from "class-validator"
 
 
 export class CreateProyectoDto {
@@ -60,13 +62,13 @@ export class CreateProyectoDto {
     @IsString()
     @IsOptional()
     @Length(1,20)
-    NombreInvitados: string
+    NombreInvitados?: string
 
     @IsString()
     @IsNotEmpty()
-    usuarioId: number
+    usuario: number
 
-    @IsString()
+    @IsArray()
     @IsNotEmpty()
-    tareaId: number
+    tareas?: CreateTareaDto[]
 }

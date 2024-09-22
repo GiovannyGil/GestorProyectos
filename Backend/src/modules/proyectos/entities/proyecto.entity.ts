@@ -1,4 +1,6 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Tarea } from "@/modules/tareas/entities/tarea.entity";
+import { Usuario } from "@/modules/usuarios/entities/usuario.entity";
+import { Column, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Proyecto {
@@ -42,11 +44,13 @@ export class Proyecto {
     invitados: boolean
 
     @Column({ type: "varchar", length: 20, nullable: true })
-    NombreInvitados: string
+    nombreInvitados: string
 
-    @Column({ type: "int", nullable: false })
-    usuarioId: number
+    @ManyToOne(() => Usuario, (usuario) => usuario.proyectos)
+    usuario: Usuario 
 
-    @Column({ type: "int", nullable: false })
-    tareaId: number
+    // relacion de muchos a muchos -> tabla intermedia
+    @ManyToMany(() => Tarea, (tarea) => tarea.proyectos)
+    @JoinTable()
+    tareas: Tarea[]
 }

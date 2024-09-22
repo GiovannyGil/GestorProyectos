@@ -1,4 +1,5 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Proyecto } from "@/modules/proyectos/entities/proyecto.entity";
+import { Column, Entity, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity()
 export class Tarea {
@@ -23,9 +24,7 @@ export class Tarea {
     @Column({ type: "boolean", nullable: true, default: false })
     estado: boolean;
     
-    @Column({ type: "int", nullable: false })
-    usuarioId: number;
-    
-    @Column({ type: "int", nullable: false })
-    proyectoId: number;
+    // relacion de muchos a muchos -> tabla intermedia
+    @ManyToMany(() => Proyecto, (proyecto) => proyecto.tareas)
+    proyectos: Proyecto[]
 }

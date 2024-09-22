@@ -1,6 +1,7 @@
-import { BeforeInsert, BeforeUpdate, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 import * as bcrypt from 'bcrypt';
 import { BadRequestException } from "@nestjs/common";
+import { Proyecto } from "@/modules/proyectos/entities/proyecto.entity";
 
 @Entity()
 export class Usuario {
@@ -61,4 +62,7 @@ export class Usuario {
 
     @Column({type: "date", nullable: true})
     deletedAt: Date;
+
+    @OneToMany(() => Proyecto, (proyecto) => proyecto.usuario)
+    proyectos: Proyecto[]
 }

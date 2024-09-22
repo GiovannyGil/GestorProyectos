@@ -4,29 +4,41 @@ import { UpdateProyectoDto } from './dto/update-proyecto.dto';
 import { Proyecto } from './entities/proyecto.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Tarea } from '../tareas/entities/tarea.entity';
 
 @Injectable()
 export class ProyectosService {
 
   constructor(
     @InjectRepository(Proyecto)
-    private readonly ProyectoREPO: Repository<Proyecto>
+    private readonly ProyectoREPO: Repository<Proyecto>,
+
+    @InjectRepository(Tarea)
+    private readonly TareaREPO: Repository<Tarea>
   ){}
 
   async create(createProyectoDto: CreateProyectoDto) {
     try {
-      // crear el proyecto
-      const proyecto = this.ProyectoREPO.create(createProyectoDto)
+      const {tareas, ...proyectoData} = createProyectoDto
 
+      // crear el proyecto sin tareas inicialmente
+      const proyecto = this.ProyectoREPO.create(proyectoData)
       // verificar si todo está bien
       if(!proyecto) throw new NotFoundException('No se pudo crear el proyecto')
 
+      // si se crea tarea asociala al proyecto
+      if(tareas && tareas.length > 0){ 
+        const nuevasTareas = await this.TareaREPO.save(tareas.map(tarea => this.TareaREPO.create(tareas))) // guardar las tareas
+        proyecto.tareas = nuevasTareas // asignar las tareas al proyecto
+      }
+
       // guardar el proyecto
       const proyectoGuardado = await this.ProyectoREPO.save(proyecto)
+
       // retornar el proyecto
       return proyectoGuardado
     } catch (error) {
-      throw new BadGatewayException(`Algo salió mal: ${error.message}`)
+      throw new BadRequestException(`Algo salió mal: ${error.message}`)
     }
   }
 
